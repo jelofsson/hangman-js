@@ -1,0 +1,73 @@
+#hangm > div {
+    display: none;
+}
+
+
+#hangm > #word, 
+#hangm > #guesses {
+    letter-spacing: 1em;
+}
+
+.man_head {
+	border-radius: 50%;
+	width: 40px;
+	height: 40px; 
+    background-color: #FFCC99;
+    position: relative;
+    bottom: 200px;
+    left: 112px;
+	/* width and height can be anything, as long as they're equal */
+}
+
+.man_upper {
+    background: #000066;
+    width: 40px;
+    height: 50px;
+    position: relative;
+    left: 112px;
+    bottom: 200px;
+}
+
+.man_lower {
+    background: #330099;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    left: 117px;
+    bottom: 200px;
+}
+
+.pole_h {
+    background: #000;
+    width: 100px;
+    height: 8px;
+    position: relative;
+    left: 46px;
+}
+
+.pole_v {
+    width: 8px;
+    height: 150px;
+    background: #000;
+    left: 46px;
+    position: relative;
+}
+
+.pole_b {
+    border-color: transparent transparent #000000 transparent;
+    border-width: 0 50px 50px 50px;
+    border-style: solid;
+    width: 0;
+    height: 0;
+    bottom: 10px;
+    position: relative;
+}
+
+.rope {
+    width: 6px;
+    height: 40px;
+    background-color: #996633;
+    position: relative;
+    bottom: 200px;
+    left: 130px;
+}

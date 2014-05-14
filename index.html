@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="hangman.css" />
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript" src="hangman.js"></script>
+        <script type="text/javascript">
+            var hangman = null;
+            $(document).ready(function() {
+                hangman = new Hangman();
+            });
+        </script>
+    </head>
+    <body>
+        <div id="hangm">
+            
+            <div id="gameover">
+                GAME OVER!
+            </div>
+            <div id="victory">
+                VICTORY!
+            </div>
+            
+            <div id="word"></div>
+            <div id="guesses"></div>
+            
+            <div id="hangm_3" class="pole_h"></div>
+            <div id="hangm_2" class="pole_v"></div>
+            <div id="hangm_1" class="pole_b"></div>
+
+            <div id="hangm_4" class="rope"></div>
+
+            <div id="hangm_5" class="man_head"></div>
+            <div id="hangm_6" class="man_upper"></div>
+            <div id="hangm_7" class="man_lower"></div>
+            <form>
+                <input id="guess" onkeydown="if (event.keyCode == 13) { hangman.guess(this.value); return false; }; this.value='';">
+                <!--<button id="guess_doit" onclick="hangman.guess(this.value); return false;">Guess</button>-->
+                <button onclick="hangman.reset(); return false;">RESET GAME</button>
+            </form>
+        </div>
+    </body>
+</html>

@@ -11,7 +11,7 @@ Hangman.prototype.reset = function() {
     this.STOPPED        = false;
     this.MISTAKES       = 0;
     this.GUESSES        = [];
-    this.WORD           = "CODENINJA"; // https://www.wordnik.com/signup
+    this.WORD           = "CODENINJA";
     $("#hangm_word").html(this.GetGuessedfWord()).fadeIn();
 }
 

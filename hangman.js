@@ -2,7 +2,7 @@
 * Hangman Javascript class
 * Author: @jelofsson
 **/
-function Hangman(element) {
+function Hangman() {
     this.reset();
 }
 

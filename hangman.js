@@ -2,17 +2,18 @@
 * Hangman Javascript class
 * Author: @jelofsson
 **/
-function Hangman() {
+function Hangman(element) {
+    this.element = '#'+$(element).attr('id');
     this.reset();
 }
 
 Hangman.prototype.reset = function() {
-    $('#hangm > .h, #hangm > div > .h').fadeOut();
+    $(this.element+' .h').fadeOut();
     this.STOPPED        = false;
     this.MISTAKES       = 0;
     this.GUESSES        = [];
     this.WORD           = "CODENINJA";
-    $("#hangm_word").html(this.GetGuessedfWord()).fadeIn();
+    $(this.element+"_word").html(this.GetGuessedfWord()).fadeIn();
 }
 
 Hangman.prototype.guess = function(guess) {
@@ -26,24 +27,24 @@ Hangman.prototype.guess = function(guess) {
     
     // Update the word & guesses
     this.GUESSES.push(guess); 
-    $("#hangm_word").html(this.GetGuessedfWord()).fadeIn();
-    $("#hangm_guesses").html(this.GUESSES).fadeIn();
+    $(this.element+"_word").html(this.GetGuessedfWord()).fadeIn();
+    $(this.element+"_guesses").html(this.GUESSES).fadeIn();
 
     if($.inArray(guess, this.WORD) < 0) 
     { // Incorrect guess
         this.MISTAKES++;
-        $("#hangm_"+this.MISTAKES).fadeIn();
+        $(this.element+"_"+this.MISTAKES).fadeIn();
         
         if(this.MISTAKES == 6)  
         { // Game Over
-            $("#hangm_gameover").fadeIn();
+            $(this.element+"_gameover").fadeIn();
             this.STOPPED = true;
             return;
         } 
     }
     else if((this.WORD.indexOf(this.GetGuessedfWord()) != -1) ? true : false) 
     { // Victory
-        $("#hangm_victory").fadeIn();
+        $(this.element+"_victory").fadeIn();
         this.STOPPED = true;
         return;
     }

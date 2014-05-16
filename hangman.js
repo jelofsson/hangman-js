@@ -7,16 +7,17 @@ function Hangman(element) {
 }
 
 Hangman.prototype.reset = function() {
-    $('#hangm > div').fadeOut();
+    $('#hangm > .h, #hangm > div > .h').fadeOut();
     this.STOPPED        = false;
     this.MISTAKES       = 0;
     this.GUESSES        = [];
     this.WORD           = "CODENINJA"; // https://www.wordnik.com/signup
+    $("#hangm_word").html(this.GetGuessedfWord()).fadeIn();
 }
 
 Hangman.prototype.guess = function(guess) {
     
-    var guess = guess.toUpperCase();
+    var guess = guess.charAt(0).toUpperCase();
     
     if(this.STOPPED || $.inArray(guess, this.GUESSES) > -1) 
     {   //  Game stopped or allready guessed on that letter
@@ -25,24 +26,25 @@ Hangman.prototype.guess = function(guess) {
     
     // Update the word & guesses
     this.GUESSES.push(guess); 
-    $("#hangm > #word").html(this.GetGuessedfWord()).fadeIn();
-    $("#hangm > #guesses").html(this.GUESSES).fadeIn();
+    $("#hangm_word").html(this.GetGuessedfWord()).fadeIn();
+    $("#hangm_guesses").html(this.GUESSES).fadeIn();
 
     if($.inArray(guess, this.WORD) < 0) 
     { // Incorrect guess
         this.MISTAKES++;
-        $("#hangm > #hangm_"+this.MISTAKES).fadeIn();
+        $("#hangm_"+this.MISTAKES).fadeIn();
         
-        if(this.MISTAKES == 7)  
+        if(this.MISTAKES == 6)  
         { // Game Over
-            $("#hangm > #gameover").fadeIn();
+            $("#hangm_gameover").fadeIn();
             this.STOPPED = true;
             return;
         } 
     }
     else if((this.WORD.indexOf(this.GetGuessedfWord()) != -1) ? true : false) 
     { // Victory
-        $("#hangm > #victory").fadeIn();
+        $("#hangm_victory").fadeIn();
+        this.STOPPED = true;
         return;
     }
     

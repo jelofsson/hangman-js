@@ -12,8 +12,11 @@ Hangman.prototype.reset = function() {
     this.STOPPED        = false;
     this.MISTAKES       = 0;
     this.GUESSES        = [];
-    this.WORD           = "CODENINJA";
-    $(this.element+"_word").html(this.GetGuessedfWord()).fadeIn();
+    var that            = this;
+    $.get( "http://jelofsson.se/hangman/get_word.php", function( data ) {
+        that.WORD = data;
+        $(that.element+"_word").html(that.GetGuessedfWord()).fadeIn();
+    });
 }
 
 Hangman.prototype.guess = function(guess) {
@@ -55,11 +58,8 @@ Hangman.prototype.GetGuessedfWord = function() {
     var result = "";
     for(var i=0; i<this.WORD.length; i++)
     { // Word characters
-        if($.inArray(this.WORD[i],this.GUESSES) > -1) {
-            result += this.WORD[i];
-        } else {
-            result += "_";
-        }
+        result += ($.inArray(this.WORD[i],this.GUESSES) > -1) ?
+            this.WORD[i] : "_";
     }
     return result;    
 }

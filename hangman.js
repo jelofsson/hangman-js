@@ -40,14 +40,14 @@ Hangman.prototype.guess = function(guess) {
         
         if(this.MISTAKES == 6)  
         { // Game Over
-            $(this.element+"_gameover").fadeIn();
+            $(this.element+"_end").html("GAME OVER!<br/>The word was: "+this.WORD).fadeIn();
             this.STOPPED = true;
             return;
         } 
     }
     else if((this.WORD.indexOf(this.GetGuessedfWord()) != -1) ? true : false) 
     { // Victory
-        $(this.element+"_victory").fadeIn();
+        $(this.element+"_end").html("You made it!<br/>The word was: "+this.WORD).fadeIn();
         this.STOPPED = true;
         return;
     }

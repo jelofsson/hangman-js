@@ -13,7 +13,7 @@ Hangman.prototype.reset = function() {
     this.MISTAKES       = 0;
     this.GUESSES        = [];
     var that            = this;
-    $.get( "http://jelofsson.se/hangman/get_word.php", function( data ) {
+    $.get( "http://jimmi.eu/hangman/get_word.php", function( data ) {
         that.WORD = data;
         $(that.element+"_word").html(that.GetGuessedfWord()).fadeIn();
     });

@@ -6,11 +6,10 @@ var Hangman = (function () {
     
     'use strict';
                
-    function Hangman(element_id) {
+    function Hangman(elId) {
         
         // Dom is ready
-        this.element_id = element_id;
-        this.element    = document.getElementById(element_id);
+        this.elId       = elId;
         this.words      = ['PROGRAMMER', 'BRAINSTORM', 'CREATIVE', 'LOLLIPOP', 'CULTURE', 'RAZORSHARP', 'SCREWDRIVER', 'TYPEWRITER'];
     }
 
@@ -24,8 +23,8 @@ var Hangman = (function () {
         
         // Reset Elements
         this.hideElementByClass('h');
-        this.showElementByIdWithContent(this.element_id + "_guessbox", null);
-        this.showElementByIdWithContent(this.element_id + "_word", this.getGuessedfWord());
+        this.showElementByIdWithContent(this.elId + "_guessbox", null);
+        this.showElementByIdWithContent(this.elId + "_word", this.getGuessedfWord());
     };
 
     Hangman.prototype.guess = function (guess) {
@@ -41,9 +40,9 @@ var Hangman = (function () {
         // Add the letter to array GUESSES
         this.GUESSES.push(guess);
         // Update the word hint
-        this.showElementByIdWithContent(this.element_id + "_word", this.getGuessedfWord());
+        this.showElementByIdWithContent(this.elId + "_word", this.getGuessedfWord());
         // Update the guessed letter list
-        this.showElementByIdWithContent(this.element_id + "_guesses", this.GUESSES.join(''));
+        this.showElementByIdWithContent(this.elId + "_guesses", this.GUESSES.join(''));
 
         if (this.WORD.indexOf(guess) < 0) {
             
@@ -51,18 +50,18 @@ var Hangman = (function () {
             this.MISTAKES++;
             
             // Show next part of hangman character
-            this.showElementByIdWithContent(this.element_id + "_" + this.MISTAKES, null);
+            this.showElementByIdWithContent(this.elId + "_" + this.MISTAKES, null);
 
             if (this.MISTAKES === 6) {
                 // Game Over
-                this.showElementByIdWithContent(this.element_id + "_end", "GAME OVER!<br/>The word was: " + this.WORD);
+                this.showElementByIdWithContent(this.elId + "_end", "GAME OVER!<br/>The word was: " + this.WORD);
                 this.STOPPED = true;
                 return;
             }
             
         } else if (this.WORD.indexOf(this.getGuessedfWord()) !== -1) {
             // Victory
-            this.showElementByIdWithContent(this.element_id + "_end", "You made it!<br/>The word was: " + this.WORD);
+            this.showElementByIdWithContent(this.elId + "_end", "You made it!<br/>The word was: " + this.WORD);
             this.STOPPED = true;
             return;
         }

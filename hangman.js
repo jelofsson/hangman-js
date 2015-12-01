@@ -2,64 +2,89 @@
 * Hangman Javascript class
 * Author: @jelofsson
 **/
-function Hangman(element) {
-    this.element = '#'+$(element).attr('id');
-    this.reset();
-}
-
-Hangman.prototype.reset = function() {
-    $(this.element+' .h').fadeOut();
-    this.STOPPED        = false;
-    this.MISTAKES       = 0;
-    this.GUESSES        = [];
-    var that            = this;
-    $.get( "http://jimmi.eu/hangman/get_word.php", function( data ) {
-        that.WORD = data;
-        $(that.element+"_word").html(that.GetGuessedfWord()).fadeIn();
-    });
-}
-
-Hangman.prototype.guess = function(guess) {
+var Hangman = (function () {
     
-    var guess = guess.charAt(0).toUpperCase();
-    
-    if(this.STOPPED || $.inArray(guess, this.GUESSES) > -1) 
-    {   //  Game stopped or allready guessed on that letter
-        return;
+    'use strict';
+               
+    function Hangman(element_id) {
+        // Dom is ready
+        this.element_id = element_id;
+        this.element    = document.getElementById(element_id);
+        this.words      = ['PROGRAMMER', 'BRAINSTORM', 'CREATIVE', 'LOLLIPOP', 'CULTURE', 'RAZORSHARP', 'SCREWDRIVER', 'TYPEWRITER'];
     }
-    
-    // Update the word & guesses
-    this.GUESSES.push(guess); 
-    $(this.element+"_word").html(this.GetGuessedfWord()).fadeIn();
-    $(this.element+"_guesses").html(this.GUESSES).fadeIn();
 
-    if($.inArray(guess, this.WORD) < 0) 
-    { // Incorrect guess
-        this.MISTAKES++;
-        $(this.element+"_"+this.MISTAKES).fadeIn();
+    Hangman.prototype.reset = function () {
         
-        if(this.MISTAKES == 6)  
-        { // Game Over
-            $(this.element+"_end").html("GAME OVER!<br/>The word was: "+this.WORD).fadeIn();
+        this.STOPPED        = false;
+        this.MISTAKES       = 0;
+        this.GUESSES        = [];
+        this.WORD           = this.words[Math.floor(Math.random() * this.words.length)];
+        
+        this.hideElementByClass('h');
+        this.showElementByIdWithContent(this.element_id + "_guessbox", null);
+        this.showElementByIdWithContent(this.element_id + "_word", this.GetGuessedfWord());
+    };
+
+    Hangman.prototype.guess = function (guess) {
+
+        guess = guess.charAt(0).toUpperCase();
+
+        if (this.STOPPED || this.GUESSES.indexOf(guess) > -1) {
+            // Game stopped or allready guessed on that letter
+            return;
+        }
+
+        // Add the letter to array GUESSES
+        this.GUESSES.push(guess);
+        // Update the word hint
+        this.showElementByIdWithContent(this.element_id + "_word", this.GetGuessedfWord());
+        // Update the guessed letter list
+        this.showElementByIdWithContent(this.element_id + "_guesses", this.GUESSES.join(''));
+
+        if (this.WORD.indexOf(guess) < 0) {
+            // Incorrect guess
+            this.MISTAKES++;
+            document.getElementById(this.element_id + "_" + this.MISTAKES).style.opacity = 1;
+
+            if (this.MISTAKES === 6) {
+                // Game Over
+                this.showElementByIdWithContent(this.element_id + "_end", "GAME OVER!<br/>The word was: " + this.WORD);
+                this.STOPPED = true;
+                return;
+            }
+        } else if (this.WORD.indexOf(this.GetGuessedfWord()) !== -1) {
+            // Victory
+            this.showElementByIdWithContent(this.element_id + "_end", "You made it!<br/>The word was: " + this.WORD);
             this.STOPPED = true;
             return;
-        } 
-    }
-    else if((this.WORD.indexOf(this.GetGuessedfWord()) != -1) ? true : false) 
-    { // Victory
-        $(this.element+"_end").html("You made it!<br/>The word was: "+this.WORD).fadeIn();
-        this.STOPPED = true;
-        return;
-    }
-    
-}
+        }
 
-Hangman.prototype.GetGuessedfWord = function() {
-    var result = "";
-    for(var i=0; i<this.WORD.length; i++)
-    { // Word characters
-        result += ($.inArray(this.WORD[i],this.GUESSES) > -1) ?
-            this.WORD[i] : "_";
-    }
-    return result;    
-}
+    };
+    
+    Hangman.prototype.showElementByIdWithContent = function (elId, content) {
+        if (content !== null) {
+            document.getElementById(elId).innerHTML = content;
+        }
+        document.getElementById(elId).style.opacity = 1;
+    };
+    
+    Hangman.prototype.hideElementByClass = function (elClass) {
+        var elements = document.getElementsByClassName(elClass), i;
+        for (i = 0; i < elements.length; i++) {
+            elements[i].style.opacity = 0;
+        }
+    };
+
+    Hangman.prototype.GetGuessedfWord = function () {
+        var result = "", i;
+        for (i = 0; i < this.WORD.length; i++) {
+            // Word characters
+            result += (this.GUESSES.indexOf(this.WORD[i]) > -1) ?
+                    this.WORD[i] : "_";
+        }
+        return result;
+    };
+    
+    return new Hangman('hangm');
+    
+}());

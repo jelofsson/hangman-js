@@ -17,8 +17,8 @@ section#hangman {
     text-align: center;
 }
 
-#hangm > .h, #hangm > div > .h {
-    display: none;
+.h {
+    opacity: 0;
 }
 
 #hangm_animation {

@@ -1,7 +1,13 @@
 html,body { 
     font-size: 1.2em;
     font-family: 'Arvo', serif;
-     text-align: center;
+    text-align: center;
+}
+
+a {
+    color: #000;
+    margin: 0.2em;
+    text-decoration: none;
 }
 
 #hangm_gameover, #hangm_victory {

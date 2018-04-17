@@ -1,6 +1,11 @@
-Hangman-js
-==========
+# Hangman-js
 
-Hangman game, written in vanilla javascript.
+A hangman game written in vanilla Javascript.
 
-[Try out demo here] (http://www.jimmi.eu/hangman)
+## Demo
+
+Try out demo [here](https://jelofsson.github.io/hangman-js/)
+
+## Usage
+
+Open `index.html`

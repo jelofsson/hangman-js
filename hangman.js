@@ -1,80 +1,97 @@
 /**
-* Hangman Javascript class
-* Author: @jelofsson
+* Hangman in Vanilla Javascript
+* @see https://github.com/jelofsson/hangman-js
+* @author jelofsson
 **/
 var Hangman = (function () {
-    
     'use strict';
-               
+
+    /**
+     * Constructor
+     * @param {string} elId An ID used in this class and when rendering the DOM Elements
+     */
     function Hangman(elId) {
-        
-        // Dom is ready
+        // DOM is ready
         this.elId       = elId;
-        this.words      = ['PROGRAMMER', 'BRAINSTORM', 'CREATIVE', 'LOLLIPOP', 'CULTURE', 'RAZORSHARP', 'SCREWDRIVER', 'TYPEWRITER'];
+        // Possible words
+        this.words      = [
+            'PROGRAMMER', 'BRAINSTORM', 'CREATIVE', 'LOLLIPOP',
+            'CULTURE', 'RAZORSHARP', 'SCREWDRIVER', 'TYPEWRITER'
+        ];
     }
 
+    /**
+     * Resets the hangman game
+     */
     Hangman.prototype.reset = function () {
-        
-        // Reset variables
+        // Variables
         this.STOPPED        = false;
         this.MISTAKES       = 0;
         this.GUESSES        = [];
+        // Select a random word from the list
         this.WORD           = this.words[Math.floor(Math.random() * this.words.length)];
-        
-        // Reset Elements
+        // DOM Elements
         this.hideElementByClass('h');
         this.showElementByIdWithContent(this.elId + "_guessbox", null);
         this.showElementByIdWithContent(this.elId + "_word", this.getGuessedfWord());
     };
 
-    Hangman.prototype.guess = function (guess) {
+    /**
+     * Logic after the user guessed on a letter
+     *
+     * @param {char} letter A letter guessed by our enduser
+     */
+    Hangman.prototype.guess = function (letter) {
+        letter = letter.charAt(0).toUpperCase();
 
-        // Uppercase the guessed letter
-        guess = guess.charAt(0).toUpperCase();
-
-        if (this.STOPPED || this.GUESSES.indexOf(guess) > -1) {
-            // Game stopped or allready guessed on that letter
+        // Check if game is stopped or the user already guessed on that letter
+        if (this.STOPPED || this.GUESSES.indexOf(letter) > -1) {
+            // Then we wont do anything
             return;
         }
 
-        // Add the letter to array GUESSES
-        this.GUESSES.push(guess);
-        // Update the word hint
+        // Add the letter to our GUESSES array
+        this.GUESSES.push(letter);
+        // Update the word hint, and guessed letter list for the user
         this.showElementByIdWithContent(this.elId + "_word", this.getGuessedfWord());
-        // Update the guessed letter list
         this.showElementByIdWithContent(this.elId + "_guesses", this.GUESSES.join(''));
 
-        if (this.WORD.indexOf(guess) < 0) {
-            
-            // Incorrect guess
+        // Check if our word does not contain the guessed letter
+        if (this.WORD.indexOf(letter) < 0) {
+            // Incorrect guess, increase our mistakes by one
             this.MISTAKES++;
-            
             // Show next part of hangman character
             this.showElementByIdWithContent(this.elId + "_" + this.MISTAKES, null);
-
+            // Check if its Game Over
             if (this.MISTAKES === 6) {
-                // Game Over
                 this.showElementByIdWithContent(this.elId + "_end", "GAME OVER!<br/>The word was: " + this.WORD);
                 this.STOPPED = true;
-                return;
             }
-            
         } else if (this.WORD.indexOf(this.getGuessedfWord()) !== -1) {
-            // Victory
+            // Victory condition
             this.showElementByIdWithContent(this.elId + "_end", "You made it!<br/>The word was: " + this.WORD);
             this.STOPPED = true;
-            return;
         }
-
     };
-    
+
+    /**
+     * Displays HTML element by id with the following content
+     *
+     * @param {string} elId     DOM ID
+     * @param {HTML} content 
+     */
     Hangman.prototype.showElementByIdWithContent = function (elId, content) {
         if (content !== null) {
             document.getElementById(elId).innerHTML = content;
         }
         document.getElementById(elId).style.opacity = 1;
     };
-    
+
+    /**
+     * Hides element by class
+     *
+     * @param {string} elClass DOM class
+     */
     Hangman.prototype.hideElementByClass = function (elClass) {
         var elements = document.getElementsByClassName(elClass), i;
         for (i = 0; i < elements.length; i++) {
@@ -82,6 +99,9 @@ var Hangman = (function () {
         }
     };
 
+    /**
+     * The word but only with letters the user has guessed so far visible
+     */
     Hangman.prototype.getGuessedfWord = function () {
         var result = "", i;
         for (i = 0; i < this.WORD.length; i++) {
@@ -91,7 +111,7 @@ var Hangman = (function () {
         }
         return result;
     };
-    
-    return new Hangman('hangm');
-    
+
+    // Create and return an instance of this class, its go time!
+    return new Hangman('hangm');    
 }());

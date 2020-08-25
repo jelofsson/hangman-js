@@ -1,11 +1,13 @@
 # Hangman-js
 
-A hangman game written in vanilla Javascript.
+The traditional hangman puzzle game written as prototype object class in vanilla Javascript.
 
 ## Demo
 
-Try out demo [here](https://jelofsson.github.io/hangman-js/)
+You can try it out [here](https://jelofsson.github.io/hangman-js/)
 
-## Usage
+## How to use
 
-Open `index.html`
+* Clone from Github
+* Make any changes that you like
+* Open `index.html` to try it out

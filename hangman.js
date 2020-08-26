@@ -100,7 +100,7 @@ var Hangman = (function () {
     };
 
     /**
-     * The word but only with letters the user has guessed so far visible
+     * The word but only with letters the user has guessed so far is visible
      */
     Hangman.prototype.getGuessedfWord = function () {
         var result = "", i;
